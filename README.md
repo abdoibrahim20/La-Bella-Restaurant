@@ -1,4 +1,4 @@
-# 🍕 La Bella Restaurant - Multi-page Premium Restaurant Website
+# 🍕La Bella - Premium Single-Page Application (SPA)
 
 A complete, multi-page responsive website for a luxury restaurant.
 
