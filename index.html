@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Bella — Authentic Italian Restaurant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #F5F0E8;
+      --dark: #1A1208;
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --red: #8B1A1A;
+      --text: #3D2B1F;
+      --muted: #7A6A5A;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: transparent;
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(26,18,8,0.97);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+    .nav-logo span { font-style: italic; color: #fff; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-reserve {
+      background: var(--gold);
+      color: var(--dark) !important;
+      padding: 0.6rem 1.4rem;
+      font-weight: 500;
+    }
+    .nav-reserve:hover { background: var(--gold-light) !important; color: var(--dark) !important; }
+
+    /* HAMBURGER */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 25px; height: 2px; background: #fff; transition: 0.3s; }
+    .mobile-menu {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--dark); z-index: 99;
+      flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: #fff; text-decoration: none;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .close-menu { position: absolute; top: 1.5rem; right: 5%; font-size: 2rem; color: #fff; cursor: pointer; }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HOME ── */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(to bottom, rgba(26,18,8,0.65) 0%, rgba(26,18,8,0.4) 60%, rgba(26,18,8,0.8) 100%),
+        url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80') center/cover no-repeat;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 0 5%;
+    }
+    .hero-badge {
+      font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .hero-badge::before, .hero-badge::after {
+      content: ''; width: 40px; height: 1px; background: var(--gold);
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      color: #fff; line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .hero h1 em { color: var(--gold); font-style: italic; }
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; color: rgba(255,255,255,0.8);
+      margin-bottom: 3rem; font-weight: 300; letter-spacing: 1px;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      background: var(--gold); color: var(--dark);
+      padding: 1rem 2.5rem; border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+      font-weight: 500; transition: 0.3s;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-outline {
+      background: transparent; color: #fff;
+      padding: 1rem 2.5rem; border: 1px solid rgba(255,255,255,0.5); cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+      font-weight: 500; transition: 0.3s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Featured dishes */
+    .featured {
+      padding: 6rem 5%;
+      background: var(--dark);
+    }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-tag {
+      font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem; display: block;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: #fff; line-height: 1.2;
+    }
+    .section-title.dark { color: var(--dark); }
+    .section-line {
+      width: 60px; height: 2px; background: var(--gold);
+      margin: 1.5rem auto 0;
+    }
+    .dishes-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem; max-width: 1200px; margin: 0 auto;
+    }
+    .dish-card {
+      position: relative; overflow: hidden;
+      cursor: pointer;
+    }
+    .dish-card img {
+      width: 100%; height: 320px; object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .dish-card:hover img { transform: scale(1.07); }
+    .dish-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.5rem 1.5rem;
+      background: linear-gradient(to top, rgba(26,18,8,0.95) 0%, transparent 100%);
+    }
+    .dish-info h3 {
+      font-family: 'Playfair Display', serif;
+      color: #fff; font-size: 1.3rem; margin-bottom: 0.3rem;
+    }
+    .dish-info p { color: rgba(255,255,255,0.7); font-size: 0.8rem; }
+    .dish-price {
+      position: absolute; top: 1rem; right: 1rem;
+      background: var(--gold); color: var(--dark);
+      padding: 0.3rem 0.8rem;
+      font-size: 0.85rem; font-weight: 600;
+    }
+
+    /* Story strip */
+    .story-strip {
+      padding: 6rem 5%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      max-width: 1200px; margin: 0 auto; align-items: center;
+    }
+    .story-img-wrap { position: relative; }
+    .story-img-wrap img {
+      width: 100%; height: 500px; object-fit: cover;
+    }
+    .story-img-wrap::before {
+      content: ''; position: absolute;
+      top: -20px; left: -20px; right: 20px; bottom: 20px;
+      border: 2px solid var(--gold); z-index: -1;
+    }
+    .story-year {
+      position: absolute; bottom: -1.5rem; right: -1.5rem;
+      background: var(--gold); color: var(--dark);
+      padding: 1.5rem; text-align: center;
+    }
+    .story-year span { display: block; font-size: 2rem; font-weight: 700; line-height: 1; }
+    .story-year small { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; }
+    .story-content .section-tag { text-align: left; }
+    .story-content .section-title { text-align: left; color: var(--dark); }
+    .story-content .section-line { margin-left: 0; }
+    .story-content p {
+      color: var(--muted); line-height: 1.9; margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    /* Stats */
+    .stats-bar {
+      background: var(--red); padding: 3rem 5%;
+      display: flex; justify-content: center; gap: 5rem; flex-wrap: wrap;
+    }
+    .stat { text-align: center; color: #fff; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; color: var(--gold); line-height: 1;
+    }
+    .stat-label { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 0.5rem; }
+
+    /* ── MENU PAGE ── */
+    .menu-hero {
+      height: 40vh; min-height: 300px;
+      background: linear-gradient(rgba(26,18,8,0.75), rgba(26,18,8,0.75)),
+        url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&q=80') center/cover;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding-top: 80px;
+    }
+    .menu-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem); color: #fff;
+    }
+    .menu-hero p { color: var(--gold); letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase; margin-top: 0.5rem; }
+
+    .menu-section { padding: 5rem 5%; max-width: 1100px; margin: 0 auto; }
+    .menu-category { margin-bottom: 4rem; }
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; color: var(--red);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 0.8rem; margin-bottom: 2rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .category-title span { font-size: 1.5rem; }
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .menu-item {
+      padding: 1.2rem 1rem;
+      border-bottom: 1px dashed rgba(0,0,0,0.1);
+      display: flex; justify-content: space-between; align-items: start; gap: 1rem;
+    }
+    .menu-item:nth-child(odd) { border-right: 1px dashed rgba(0,0,0,0.1); }
+    .menu-item-info h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--dark); margin-bottom: 0.3rem;
+    }
+    .menu-item-info p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .menu-item-price {
+      font-size: 1rem; font-weight: 600; color: var(--red);
+      white-space: nowrap;
+    }
+
+    /* ── ABOUT PAGE ── */
+    .about-hero {
+      height: 40vh; min-height: 300px;
+      background: linear-gradient(rgba(26,18,8,0.7), rgba(26,18,8,0.7)),
+        url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=1600&q=80') center/cover;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding-top: 80px;
+    }
+    .about-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem); color: #fff;
+    }
+
+    .about-content { padding: 5rem 5%; max-width: 1100px; margin: 0 auto; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 5rem; }
+    .about-text .section-title { text-align: left; color: var(--dark); }
+    .about-text .section-tag { text-align: left; }
+    .about-text .section-line { margin-left: 0; }
+    .about-text p { color: var(--muted); line-height: 1.9; margin-top: 1.2rem; font-size: 0.95rem; }
+    .about-img { height: 450px; object-fit: cover; width: 100%; }
+
+    .team-section { padding: 4rem 0; text-align: center; }
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+    .team-card img { width: 100%; height: 300px; object-fit: cover; object-position: top; }
+    .team-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-top: 1rem; }
+    .team-card p { color: var(--muted); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 0.3rem; }
+
+    .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; padding: 4rem 5%; background: var(--dark); }
+    .value-card { text-align: center; padding: 2.5rem 2rem; }
+    .value-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .value-card h3 { font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 0.8rem; }
+    .value-card p { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.7; }
+
+    /* ── CONTACT PAGE ── */
+    .contact-hero {
+      height: 40vh; min-height: 300px;
+      background: linear-gradient(rgba(26,18,8,0.75), rgba(26,18,8,0.75)),
+        url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80') center/cover;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding-top: 80px;
+    }
+    .contact-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem); color: #fff;
+    }
+
+    .contact-body { display: grid; grid-template-columns: 1fr 1.4fr; gap: 0; max-width: 1100px; margin: 5rem auto; padding: 0 5%; }
+    .contact-info { padding-right: 4rem; }
+    .contact-info h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 2rem; }
+    .info-item { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: start; }
+    .info-icon { font-size: 1.5rem; margin-top: 0.2rem; }
+    .info-item h4 { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+    .info-item p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+    .contact-form-wrap { background: var(--dark); padding: 3rem; }
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold); font-size: 1.5rem; margin-bottom: 2rem;
+    }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group label {
+      display: block; font-size: 0.7rem; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; padding: 0.9rem 1rem;
+      font-family: 'Montserrat', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border-color 0.3s;
+    }
+    .form-group select option { background: var(--dark); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      width: 100%; background: var(--gold); color: var(--dark);
+      padding: 1rem; border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+      font-weight: 600; transition: 0.3s;
+    }
+    .form-submit:hover { background: var(--gold-light); }
+    .success-msg {
+      display: none; text-align: center; padding: 2rem;
+      color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.3rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0D0A04; padding: 4rem 5% 2rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand .nav-logo { display: inline-block; margin-bottom: 1rem; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; }
+    .footer-col h4 {
+      color: var(--gold); font-size: 0.7rem; letter-spacing: 3px;
+      text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul li a {
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      font-size: 0.85rem; transition: color 0.3s; cursor: pointer;
+    }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem; text-align: center; font-size: 0.8rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .story-strip, .about-grid { grid-template-columns: 1fr; }
+      .story-img-wrap { display: none; }
+      .menu-grid, .team-grid, .values-grid { grid-template-columns: 1fr; }
+      .contact-body { grid-template-columns: 1fr; }
+      .contact-info { padding-right: 0; margin-bottom: 2rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .stats-bar { gap: 2rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a class="nav-logo" href="#" onclick="showPage('home')">La <span>Bella</span></a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home')">Home</a></li>
+    <li><a href="#" onclick="showPage('menu')">Menu</a></li>
+    <li><a href="#" onclick="showPage('about')">About</a></li>
+    <li><a href="#" onclick="showPage('contact')" class="nav-reserve">Reserve a Table</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="close-menu" onclick="toggleMenu()">✕</span>
+  <a href="#" onclick="showPage('home');toggleMenu()">Home</a>
+  <a href="#" onclick="showPage('menu');toggleMenu()">Menu</a>
+  <a href="#" onclick="showPage('about');toggleMenu()">About</a>
+  <a href="#" onclick="showPage('contact');toggleMenu()">Reserve</a>
+</div>
+
+<!-- ══════════ HOME PAGE ══════════ -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-badge">Authentic Italian Cuisine Since 1998</div>
+    <h1>La <em>Bella</em></h1>
+    <p class="hero-sub">Where every dish tells a story from the heart of Italy</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showPage('menu')">Explore Menu</button>
+      <button class="btn-outline" onclick="showPage('contact')">Reserve a Table</button>
+    </div>
+  </section>
+
+  <section class="featured">
+    <div class="section-header fade-up">
+      <span class="section-tag">Our Signature Dishes</span>
+      <h2 class="section-title">Crafted with Passion</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="dishes-grid">
+      <div class="dish-card fade-up">
+        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80" alt="Pizza Margherita"/>
+        <div class="dish-price">120 EGP</div>
+        <div class="dish-info">
+          <h3>Pizza Margherita</h3>
+          <p>San Marzano tomatoes, fresh mozzarella, basil</p>
+        </div>
+      </div>
+      <div class="dish-card fade-up">
+        <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&q=80" alt="Pasta Carbonara"/>
+        <div class="dish-price">140 EGP</div>
+        <div class="dish-info">
+          <h3>Pasta Carbonara</h3>
+          <p>Guanciale, egg yolk, Pecorino Romano, black pepper</p>
+        </div>
+      </div>
+      <div class="dish-card fade-up">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80" alt="Tiramisu"/>
+        <div class="dish-price">85 EGP</div>
+        <div class="dish-info">
+          <h3>Tiramisù</h3>
+          <p>Mascarpone, espresso-soaked ladyfingers, cocoa</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="story-strip">
+    <div class="story-img-wrap fade-up">
+      <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80" alt="Chef"/>
+      <div class="story-year">
+        <span>25+</span>
+        <small>Years of Excellence</small>
+      </div>
+    </div>
+    <div class="story-content fade-up">
+      <span class="section-tag">Our Story</span>
+      <h2 class="section-title dark">From Naples to Your Table</h2>
+      <div class="section-line"></div>
+      <p>La Bella was born from a simple dream — to bring the true flavors of southern Italy to Egypt. Our founder, Chef Marco Rossi, left Naples in 1998 carrying nothing but his grandmother's recipes and an unwavering passion for honest cooking.</p>
+      <p>Every ingredient we use is carefully selected. Our pasta is made fresh each morning. Our sauces simmer for hours. We believe that great food is never rushed.</p>
+      <button class="btn-primary" style="margin-top:2rem" onclick="showPage('about')">Our Full Story</button>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat fade-up">
+      <div class="stat-num">25+</div>
+      <div class="stat-label">Years of Service</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-num">80+</div>
+      <div class="stat-label">Menu Items</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-num">50K+</div>
+      <div class="stat-label">Happy Guests</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Average Rating</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#" onclick="showPage('home')">La <span>Bella</span></a>
+        <p>Authentic Italian cuisine crafted with love and the finest ingredients, served in the heart of Cairo since 1998.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a onclick="showPage('home')">Home</a></li>
+          <li><a onclick="showPage('menu')">Menu</a></li>
+          <li><a onclick="showPage('about')">About Us</a></li>
+          <li><a onclick="showPage('contact')">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <ul>
+          <li><a>Mon–Fri: 12pm – 11pm</a></li>
+          <li><a>Sat–Sun: 11am – 12am</a></li>
+          <li><a>Holidays: 12pm – 10pm</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a>📍 Zamalek, Cairo</a></li>
+          <li><a>📞 +20 2 1234 5678</a></li>
+          <li><a>✉️ hello@labella.eg</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2024 La Bella Restaurant. All rights reserved.
+    </div>
+  </footer>
+
+</div>
+
+<!-- ══════════ MENU PAGE ══════════ -->
+<div class="page" id="page-menu">
+
+  <div class="menu-hero">
+    <div>
+      <p>Explore Our Flavors</p>
+      <h1>Our <em style="font-style:italic;color:var(--gold)">Menu</em></h1>
+    </div>
+  </div>
+
+  <div class="menu-section">
+
+    <div class="menu-category fade-up">
+      <h2 class="category-title"><span>🍞</span> Antipasti</h2>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Bruschetta al Pomodoro</h4>
+            <p>Toasted sourdough, fresh tomatoes, basil, extra virgin olive oil</p>
+          </div>
+          <div class="menu-item-price">65 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Burrata e Prosciutto</h4>
+            <p>Creamy burrata, cured ham, cherry tomatoes, arugula</p>
+          </div>
+          <div class="menu-item-price">120 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Carpaccio di Manzo</h4>
+            <p>Thinly sliced beef, capers, Parmesan shavings, lemon</p>
+          </div>
+          <div class="menu-item-price">135 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Zuppa di Pomodoro</h4>
+            <p>Roasted tomato soup with basil cream and croutons</p>
+          </div>
+          <div class="menu-item-price">75 EGP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category fade-up">
+      <h2 class="category-title"><span>🍝</span> Pasta</h2>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Spaghetti Carbonara</h4>
+            <p>Guanciale, egg yolk, Pecorino Romano, black pepper</p>
+          </div>
+          <div class="menu-item-price">140 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Penne all'Arrabbiata</h4>
+            <p>San Marzano tomatoes, garlic, chili, fresh basil</p>
+          </div>
+          <div class="menu-item-price">110 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Tagliatelle al Ragù</h4>
+            <p>Slow-cooked Bolognese, fresh egg pasta, Parmigiano</p>
+          </div>
+          <div class="menu-item-price">155 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Risotto ai Funghi</h4>
+            <p>Arborio rice, wild mushrooms, white wine, truffle oil</p>
+          </div>
+          <div class="menu-item-price">165 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Linguine alle Vongole</h4>
+            <p>Fresh clams, white wine, garlic, parsley, chili</p>
+          </div>
+          <div class="menu-item-price">185 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Gnocchi al Pesto</h4>
+            <p>Homemade potato gnocchi, Genovese basil pesto, pine nuts</p>
+          </div>
+          <div class="menu-item-price">145 EGP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category fade-up">
+      <h2 class="category-title"><span>🍕</span> Pizza</h2>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Margherita</h4>
+            <p>San Marzano tomato, fior di latte mozzarella, fresh basil</p>
+          </div>
+          <div class="menu-item-price">120 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Diavola</h4>
+            <p>Spicy salami, mozzarella, tomato, chili flakes</p>
+          </div>
+          <div class="menu-item-price">145 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Quattro Formaggi</h4>
+            <p>Mozzarella, Gorgonzola, Fontina, Parmigiano</p>
+          </div>
+          <div class="menu-item-price">155 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Pizza Tartufo</h4>
+            <p>White base, mozzarella, mushrooms, truffle cream, arugula</p>
+          </div>
+          <div class="menu-item-price">175 EGP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category fade-up">
+      <h2 class="category-title"><span>🍮</span> Dolci</h2>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Tiramisù</h4>
+            <p>Mascarpone cream, espresso-soaked savoiardi, cocoa</p>
+          </div>
+          <div class="menu-item-price">85 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Panna Cotta</h4>
+            <p>Vanilla cream, wild berry coulis, mint</p>
+          </div>
+          <div class="menu-item-price">75 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Cannoli Siciliani</h4>
+            <p>Crispy pastry shells, ricotta, candied orange, pistachios</p>
+          </div>
+          <div class="menu-item-price">80 EGP</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <h4>Gelato Artigianale</h4>
+            <p>3 scoops of house-made gelato — ask your server for today's flavors</p>
+          </div>
+          <div class="menu-item-price">70 EGP</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#" onclick="showPage('home')">La <span>Bella</span></a>
+        <p>Authentic Italian cuisine crafted with love and the finest ingredients.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a onclick="showPage('home')">Home</a></li>
+          <li><a onclick="showPage('menu')">Menu</a></li>
+          <li><a onclick="showPage('about')">About Us</a></li>
+          <li><a onclick="showPage('contact')">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <ul>
+          <li><a>Mon–Fri: 12pm – 11pm</a></li>
+          <li><a>Sat–Sun: 11am – 12am</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a>📍 Zamalek, Cairo</a></li>
+          <li><a>📞 +20 2 1234 5678</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2024 La Bella Restaurant. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<!-- ══════════ ABOUT PAGE ══════════ -->
+<div class="page" id="page-about">
+
+  <div class="about-hero">
+    <div>
+      <h1>Our <em style="font-style:italic;color:var(--gold)">Story</em></h1>
+    </div>
+  </div>
+
+  <div class="about-content">
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <span class="section-tag">Est. 1998</span>
+        <h2 class="section-title">Born in Naples, <br>Rooted in Cairo</h2>
+        <div class="section-line"></div>
+        <p>In 1998, Chef Marco Rossi packed his grandmother's handwritten recipe book and boarded a flight to Cairo. He had one mission — to share the soul of Italian cooking with Egypt.</p>
+        <p>La Bella opened its doors in a small corner of Zamalek with just 12 tables and a wood-fired oven imported from Naples. Within a year, the waitlist for weekends stretched to a month. Word had spread — this was something different.</p>
+        <p>Today, La Bella remains a family affair. Marco's daughter, Sofia, manages the floor, while his son Luca oversees the kitchen. The recipes, however, remain exactly as Nonna Maria wrote them.</p>
+      </div>
+      <img class="about-img fade-up" src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&q=80" alt="Restaurant interior"/>
+    </div>
+
+    <div class="team-section fade-up">
+      <span class="section-tag" style="display:block;text-align:center">The People Behind The Food</span>
+      <h2 class="section-title dark" style="text-align:center">Meet Our Team</h2>
+      <div class="section-line"></div>
+      <div class="team-grid">
+        <div class="team-card">
+          <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400&q=80" alt="Chef Marco"/>
+          <h3>Marco Rossi</h3>
+          <p>Head Chef & Founder</p>
+        </div>
+        <div class="team-card">
+          <img src="https://images.unsplash.com/photo-1583394293214-0b3843ef01b4?w=400&q=80" alt="Luca"/>
+          <h3>Luca Rossi</h3>
+          <p>Sous Chef</p>
+        </div>
+        <div class="team-card">
+          <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&q=80" alt="Sofia"/>
+          <h3>Sofia Rossi</h3>
+          <p>Restaurant Manager</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="values-grid">
+    <div class="value-card fade-up">
+      <div class="value-icon">🫒</div>
+      <h3>Finest Ingredients</h3>
+      <p>We import key ingredients directly from Italy — from San Marzano tomatoes to Parmigiano Reggiano — because quality cannot be compromised.</p>
+    </div>
+    <div class="value-card fade-up">
+      <div class="value-icon">👨‍🍳</div>
+      <h3>Handmade Daily</h3>
+      <p>Our pasta is rolled fresh every morning. Our sauces simmer all day. We believe the best food takes time, and we never rush it.</p>
+    </div>
+    <div class="value-card fade-up">
+      <div class="value-icon">🤝</div>
+      <h3>Family Hospitality</h3>
+      <p>Every guest is treated as a member of the Rossi family. Warm, attentive, and personal — that's the La Bella way.</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#" onclick="showPage('home')">La <span>Bella</span></a>
+        <p>Authentic Italian cuisine crafted with love and the finest ingredients.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a onclick="showPage('home')">Home</a></li>
+          <li><a onclick="showPage('menu')">Menu</a></li>
+          <li><a onclick="showPage('about')">About Us</a></li>
+          <li><a onclick="showPage('contact')">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <ul>
+          <li><a>Mon–Fri: 12pm – 11pm</a></li>
+          <li><a>Sat–Sun: 11am – 12am</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a>📍 Zamalek, Cairo</a></li>
+          <li><a>📞 +20 2 1234 5678</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2024 La Bella Restaurant. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<!-- ══════════ CONTACT PAGE ══════════ -->
+<div class="page" id="page-contact">
+
+  <div class="contact-hero">
+    <div>
+      <h1>Reserve a <em style="font-style:italic;color:var(--gold)">Table</em></h1>
+    </div>
+  </div>
+
+  <div class="contact-body">
+    <div class="contact-info fade-up">
+      <h2>Visit Us</h2>
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div>
+          <h4>Location</h4>
+          <p>15 Sharia al-Gezira, Zamalek<br>Cairo, Egypt</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🕐</div>
+        <div>
+          <h4>Opening Hours</h4>
+          <p>Monday – Friday: 12:00 pm – 11:00 pm<br>Saturday – Sunday: 11:00 am – 12:00 am</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📞</div>
+        <div>
+          <h4>Phone</h4>
+          <p>+20 2 1234 5678</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">✉️</div>
+        <div>
+          <h4>Email</h4>
+          <p>hello@labella.eg</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-wrap fade-up">
+      <h3 class="form-title">Book Your Experience</h3>
+      <div id="reservationForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Marco"/>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Rossi"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" placeholder="+20 1XX XXX XXXX"/>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="your@email.com"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date"/>
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <select>
+              <option>12:00 PM</option>
+              <option>1:00 PM</option>
+              <option>2:00 PM</option>
+              <option>7:00 PM</option>
+              <option>8:00 PM</option>
+              <option>9:00 PM</option>
+              <option>10:00 PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Number of Guests</label>
+          <select>
+            <option>1 Guest</option>
+            <option>2 Guests</option>
+            <option>3 Guests</option>
+            <option>4 Guests</option>
+            <option>5+ Guests</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Special Requests</label>
+          <textarea placeholder="Allergies, anniversary setup, high chair needed..."></textarea>
+        </div>
+        <button class="form-submit" onclick="submitReservation()">Confirm Reservation</button>
+      </div>
+      <div class="success-msg" id="successMsg">
+        🎉 Reservation Confirmed!<br>
+        <span style="font-family:'Montserrat',sans-serif;font-size:0.9rem;color:rgba(255,255,255,0.7);display:block;margin-top:0.8rem">We'll send a confirmation to your email shortly. See you soon!</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#" onclick="showPage('home')">La <span>Bella</span></a>
+        <p>Authentic Italian cuisine crafted with love and the finest ingredients.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a onclick="showPage('home')">Home</a></li>
+          <li><a onclick="showPage('menu')">Menu</a></li>
+          <li><a onclick="showPage('about')">About Us</a></li>
+          <li><a onclick="showPage('contact')">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <ul>
+          <li><a>Mon–Fri: 12pm – 11pm</a></li>
+          <li><a>Sat–Sun: 11am – 12am</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a>📍 Zamalek, Cairo</a></li>
+          <li><a>📞 +20 2 1234 5678</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2024 La Bella Restaurant. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  // ── PAGE NAVIGATION ──
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    observeFadeUps();
+  }
+
+  // ── NAVBAR SCROLL ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // ── MOBILE MENU ──
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // ── FADE UP ANIMATIONS ──
+  function observeFadeUps() {
+    const els = document.querySelectorAll('.fade-up:not(.visible)');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 100);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(el => obs.observe(el));
+  }
+  observeFadeUps();
+
+  // ── RESERVATION FORM ──
+  function submitReservation() {
+    document.getElementById('reservationForm').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }
+</script>
+</body>
+</html>
