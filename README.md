@@ -1,7 +1,7 @@
 # 🍕La Bella - Premium Single-Page Application (SPA)
 
 A complete, multi-page responsive website for a luxury restaurant.
-
+![La Bella Preview](La%20Bella.jpeg)
 ## 🌟 Key Features
 * **Multi-page Navigation:** Seamless transitions between Home, About, Menu, and Contact pages.
 * **Responsive Design:** Mobile-first approach for foodies on the go.
